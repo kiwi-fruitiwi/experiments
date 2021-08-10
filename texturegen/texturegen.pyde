@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # This creates the transparent texture demoed in Coding Train's Nature of Code 2
 # video, 4.4: Particle Systems with Image Textures:
 # https://www.youtube.com/watch?v=pUhv2CA0omA
