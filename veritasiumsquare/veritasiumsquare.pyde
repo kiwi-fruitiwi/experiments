@@ -7,15 +7,36 @@
 from SquaresVis import *
 
 def setup():
-    global sv
+    global sv, span
     
-    size(700, 700)
+    size(600, 400)
     colorMode(HSB, 360, 100, 100, 100)
     
     sv = SquaresVis()
-    frameRate(1)
+    span = 10
+    
 
 def draw():
     background(209, 95, 33)
+    
     sv.inc()
-    sv.show(5)
+    sv.show(span)
+    
+    
+def mouseWheel(event): 
+    global span
+    
+    e = event.getCount()
+    
+    if e == 1:
+        span += 1
+    
+    if e == -1:
+        span -= 1
+
+
+# def keyPressed():
+#     if key == "a":
+#         sv.dec()
+#     if key == "d":
+#         sv.inc()
