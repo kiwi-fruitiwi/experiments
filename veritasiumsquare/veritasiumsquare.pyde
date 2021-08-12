@@ -7,32 +7,44 @@
 from SquaresVis import *
 
 def setup():
-    global sv, span
+    global sv, span, exceeded
     
-    size(600, 400)
+    size(1200, 800)
     colorMode(HSB, 360, 100, 100, 100)
     
     sv = SquaresVis()
     span = 10
+    noSmooth()
     
 
 def draw():
+    global sv, span, exceeded
     background(209, 95, 33)
     
-    sv.inc()
+    INCREMENT = 1
+    
+    for i in range(INCREMENT):
+        sv.inc()
     sv.show(span)
     
-    
-def mouseWheel(event): 
-    global span
-    
-    e = event.getCount()
-    
-    if e == 1:
+    if sv.exceeded_height:
         span += 1
+        sv.exceeded_height = False
     
-    if e == -1:
-        span -= 1
+
+def mousePressed():
+    noLoop()    
+    
+# def mouseWheel(event): 
+#     global span
+    
+#     e = event.getCount()
+    
+#     if e == 1:
+#         span += 1
+    
+#     if e == -1:
+#         span -= 1
 
 
 # def keyPressed():
