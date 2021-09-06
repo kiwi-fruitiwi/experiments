@@ -21,7 +21,7 @@ def setup():
     
     imageMode(CENTER)
     colorMode(HSB, 360, 100, 100, 100)
-    spritesheet = loadImage("quickman-run-shoot-boomerangs.png")
+    spritesheet = loadImage("viking.png")
     size(700, 300)
     
     delay(100)  # with no delay we never get to see the 1st frame
