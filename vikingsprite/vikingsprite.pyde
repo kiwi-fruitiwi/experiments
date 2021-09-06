@@ -1,6 +1,5 @@
 # 2021.09.06
-# @author Kiwi
-#
+# @author Kiwi, project based on:
 # Make your first 2D platformer game IN JUST 10 MINUTES (Godot Game Engine)
 # https://www.youtube.com/watch?v=xFEKIWpd0sU
 
@@ -8,44 +7,48 @@ from Sprite import Sprite
 
 
 # Hajileee's viking sprite https://hajileee.itch.io/hajileees-fantasy-characters-pack
-# Idle(7)
-# Run(6)
-# Jump(5)
-# Attack Sequence(9)
-# Shield(9)
-# Death(9)  
-# Canvas Size: 32x32
+#     Idle(7)
+#     Run(6)
+#     Jump(5)
+#     Attack Sequence(9)
+#     Shield(9)
+#     Death(9)  
+#     Canvas Size: 32x32
+#
+# this guy's collision box is more of an ellipse
+# 
+# have idle, run, jump inside sprite.py as spritesheets registered to that action
+# activate them when necessary
+#    add attack sequence, shield, and death
+# 
+# 
+# 
+
+from Viking import *
 
 def setup():
-    global sprites, mirror
+    global victor, sprites, mirror
     
     imageMode(CENTER)
     colorMode(HSB, 360, 100, 100, 100)
     spritesheet = loadImage("viking.png")
-    size(700, 300)
+    size(700, 300, P3D)
     
     delay(100)  # with no delay we never get to see the 1st frame
+    imgs = []
+    for i in range(7):
+        img = spritesheet.get(32*i, 0, 32, 32)
+        img.resize(128, 128)
+        imgs.append(img)
     
-    ichi = spritesheet.get(0, 32, 32, 32)
-    ni = spritesheet.get(32, 32, 32, 32)
-    san = spritesheet.get(64, 32, 32, 32)
+    # sprites = []
+    mirror = False # do we flip the image?    
+    victor = Viking(imgs, width/2, height/2, 0.2)
     
-    imgs = [ni, ichi, ni, san] 
-    sprites = []
-    mirror = False
-    
-    # for i in range(9):
-    # sprites.append(Sprite(imgs, 10, 10 + i * 32, random(0.15, 0.25), move=True))
-    # sprites.append(sprite_quickman_intro())
-    
-    for i in range(100):
-        # particle = Sprite(imgs, random(width), random(height), random(0.15, 0.25), move=True)
-        particle = Sprite(imgs, 0, 0, random(0.15, 0.25), move=True)
-        sprites.append(particle)
     
 
 def draw():
-    global sprites, mirror    
+    global victor, sprites, mirror    
     background(209, 95, 33)
         
     gravity = PVector(0, 0.1)
@@ -55,28 +58,20 @@ def draw():
     # pressing spacebar means we switch to the jump animation
     # pressing F switches to jumping + fire or fire animation frame
     
-    
-    for sprite in sprites:
-        sprite.apply_force(gravity)
-        sprite.update()
-        sprite.edges()
-        sprite.animate()
-        sprite.show()
-    
-    
-    for sprite in sprites:
-        if mirror:
-            sprite.show_mirror()
-        else:
-            sprite.show()
-        sprite.animate()
+    victor.update()
+    victor.animate()
+    victor.show()
 
 
 def keyPressed():
-    global mirror
+    global victor, mirror
     
-    if key == 'm':
-        mirror = not mirror
+    if key == 'a':
+        victor.vel = PVector(-1, 0)
+
+    
+    if key == 'd':
+        victor.vel = PVector(1, 0)
 
 
 

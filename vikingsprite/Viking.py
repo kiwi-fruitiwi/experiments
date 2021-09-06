@@ -1,26 +1,23 @@
-class Sprite(object):
-    def __init__(self, animation, x, y, speed, move): # move is a boolean. should it move?
+class Viking():
+    def __init__(self, animation, x, y, animation_speed): 
         self.pos = PVector(x, y)
-        self.vel = PVector() # random(-0.1, 0.1), random(-0.1, 0.1)
+        self.vel = PVector()
         self.acc = PVector(0, 0)        
+        self.speed = animation_speed
+        self.max_speed = 4
         
         # animation is simply a list of image objects
-        self.animation = animation
-        self.frames = len(self.animation)
+        self.animation = animation 
+        self.frames = len(self.animation)          
         self.w = self.animation[0].width
         self.r = self.w
+        self.index = 0        
         
-        self.speed = speed
-        self.move = move # the sprite always animates, but if this is False, it doesn't move
-        self.index = 0
-        
-        self.max_speed = 4
-           
     
     # updates the velocity and position
     def update(self):
         self.vel.add(self.acc)
-        self.vel.limit(4) # limit to our maximum speed
+        self.vel.limit(self.max_speed) # limit to our maximum speed
         self.pos.add(self.vel)
         self.acc.mult(0)
     
@@ -38,6 +35,7 @@ class Sprite(object):
     # check to make sure our sprite is constrained within the edges
     # of the canvas. invert velocity if it goes past an edge to give a
     # "bounce" effect. 
+    # TODO: finish this? 
     def edges(self):
         if self.pos.x + self.r <= 0:
             self.vel.x *= -1
@@ -56,6 +54,7 @@ class Sprite(object):
             image(frame, self.pos.x, self.pos.y)   
      
     
+    # shows the sprite facing the opposite direction horizontally
     def show_mirror(self):
         index = floor(self.index) % self.frames
         
@@ -65,8 +64,3 @@ class Sprite(object):
         scale(-1, 1)
         image(frame, 0, 0)
         popMatrix()
-
-
-# class Viking(Sprite):
-#     def __init__(self):
-#         super(Viking, self)
