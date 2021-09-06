@@ -10,14 +10,13 @@
 def setup(): 
     global pg
     size(512, 512)
-    
     # Unlike the main drawing surface which is completely opaque, surfaces 
     # created with createGraphics() can have transparency. This makes it possible
-    # to draw into a graphics and maintain the alpha channel. By using save() to 
+    # to draw into it and maintain the alpha channel. By using save() to 
     # write a PNG or TGA file, the transparency of the graphics object will be 
     # honored. 
     pg = createGraphics(width, height)
-    
+
 
 # note the noLoop()! This executes once and could be in setup()
 # this draws a circular texture with increasing transparency as r increases
