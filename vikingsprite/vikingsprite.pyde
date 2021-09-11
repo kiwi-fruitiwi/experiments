@@ -3,26 +3,16 @@
 # Make your first 2D platformer game IN JUST 10 MINUTES (Godot Game Engine)
 # https://www.youtube.com/watch?v=xFEKIWpd0sU
 
-from Sprite import Sprite
-
-
-# Hajileee's viking sprite https://hajileee.itch.io/hajileees-fantasy-characters-pack
-#     Idle(7)
-#     Run(6)
-#     Jump(5)
-#     Attack Sequence(9)
-#     Shield(9)
-#     Death(9)  
-#     Canvas Size: 32x32
+# . have idle, run, jump inside sprite.py as spritesheets registered to that action
+# add velocity and acceleration 
+# activate animations when necessary
+#     add attack sequence, shield, and death
+#     add looponce functionality for death, attack, shield?
+# detect if viking in the air
+# 
 #
-# this guy's collision box is more of an ellipse
-# 
-# have idle, run, jump inside sprite.py as spritesheets registered to that action
-# activate them when necessary
-#    add attack sequence, shield, and death
-# 
-# 
-# 
+# loop=False doesn't work yet for attack, death, and shield animations
+# mirroring doesn't work properly and save state
 
 from Viking import *
 
@@ -35,23 +25,15 @@ def setup():
     size(700, 300, P3D)
     
     delay(100)  # with no delay we never get to see the 1st frame
-    imgs = []
-    for i in range(7):
-        img = spritesheet.get(32*i, 0, 32, 32)
-        img.resize(128, 128)
-        imgs.append(img)
-    
-    # sprites = []
     mirror = False # do we flip the image?    
-    victor = Viking(imgs, width/2, height/2, 0.2)
-    
+    victor = Viking(spritesheet, width/2, height/2, 0.1)    
     
 
 def draw():
     global victor, sprites, mirror    
     background(209, 95, 33)
         
-    gravity = PVector(0, 0.1)
+    # gravity = PVector(0, 0.1)
     
     # if I press the right arrow, animate walking right. make sure it's mirrored
     # if left arrow, animate walking left
@@ -66,12 +48,34 @@ def draw():
 def keyPressed():
     global victor, mirror
     
-    if key == 'a':
-        victor.vel = PVector(-1, 0)
-
     
-    if key == 'd':
-        victor.vel = PVector(1, 0)
+    # if abs(victor.vel.x) > 0:
+    #     victor.set_animation(victor.animation_run)
+    # else: # we're not moving
+    #     victor.set_animation(victor.animation_idle)
+        
+    if key == 'a':
+        victor.vel = PVector(-4, 0)
+        victor.set_animation(victor.animation_run, loop=True)
+        victor.facing_right = False
+    elif key == 'd':
+        victor.vel = PVector(4, 0)
+        victor.set_animation(victor.animation_run, loop=True)
+        victor.facing_right = True
+    # else:
+    #     victor.vel = PVector(0, 0)
+        
+    if key == 'e':
+        victor.set_animation(victor.animation_attack, loop=False)
+        
+    if key == 's':
+        victor.set_animation(victor.animation_death, loop=False)
+
+
+def keyReleased():
+    if key == 'a' or key == 'd':
+        victor.vel = PVector(0, 0)
+        victor.set_animation(victor.animation_idle, loop=True)
 
 
 
